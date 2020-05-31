@@ -5,7 +5,7 @@
 
 
 
-void gotoxy(int x, int y) {
+extern void gotoxy(int x, int y) {
 	COORD pos;
 	pos.X = x;
 	pos.Y = y;
@@ -130,6 +130,23 @@ int main(void) {
 	
 			cursorFix(D_X,D_Y,4);
 			
+		}
+
+		if (direction == 13) {//엔터키를 누름.
+			if (initCount == 1) {//easy mode
+				gameEasy();
+			}
+			else if (initCount == 2) {//normal mode
+
+			}
+			else if (initCount == 3) {//hard mode
+
+			}
+			else { //exit
+
+				return;
+			}
+
 		}
 
 

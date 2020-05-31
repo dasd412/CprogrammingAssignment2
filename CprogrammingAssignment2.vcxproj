@@ -123,9 +123,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="game.c" />
     <ClCompile Include="mainMenu.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gameHeader.h" />
     <ClInclude Include="menuHeader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
