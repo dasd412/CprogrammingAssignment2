@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="game.c" />
     <ClCompile Include="mainMenu.c" />
+    <ClCompile Include="screen.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="declaration.h" />
