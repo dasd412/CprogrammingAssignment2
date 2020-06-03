@@ -1,5 +1,4 @@
 ﻿  game.c
-C:\Users\dasd4\source\repos\CprogrammingAssignment2\CprogrammingAssignment2\game.c(14): warning C4013: 'gotoxy'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\Users\dasd4\source\repos\CprogrammingAssignment2\CprogrammingAssignment2\game.c(54): warning C4305: '=': 'int'에서 'char'(으)로 잘립니다.
-C:\Users\dasd4\source\repos\CprogrammingAssignment2\CprogrammingAssignment2\game.c(56): warning C4305: '=': 'int'에서 'char'(으)로 잘립니다.
+  mainMenu.c
+  코드를 생성하고 있습니다...
   CprogrammingAssignment2.vcxproj -> C:\Users\dasd4\source\repos\CprogrammingAssignment2\Debug\CprogrammingAssignment2.exe

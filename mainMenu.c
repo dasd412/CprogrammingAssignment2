@@ -1,7 +1,9 @@
 
 
-#include "menuHeader.h"
+#include"declaration.h"
 
+char* menus[MENU_MAX] = { "EASY","NORMAL","HARD","EXIT" };
+char* backToMenus[BACK_TO_MENU_MAX] = { "예","아니오" };
 
 
 
@@ -12,7 +14,7 @@ extern void gotoxy(int x, int y) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-void cursorFix(int x, int y,int index) {
+extern void cursorFix(int x, int y,int index, int gameFlag) {
 	int i;
 	int j = 0;
 
@@ -35,7 +37,16 @@ void cursorFix(int x, int y,int index) {
 
 		if (i== START_CURSOR){
 
-			printMenu(index, i);
+			if (gameFlag == FLAG_MENU) {
+               printMenu(index, i);
+			}
+			else if (gameFlag == FLAG_BACK_TO_MENU) {
+				printBackToMenu(index, i);
+			}
+			else if (gameFlag == FLAG_GAME) {
+				printGame(index, i);
+			}
+			
 
 			
 			
@@ -73,34 +84,53 @@ void printMenu(int index,int i) {
 	
 }
 
-int main(void) {
+void printBackToMenu(int index, int i) {
+	gotoxy(STANDARD_CONSOLE, i - 1);
+	printf("메인 메뉴로 돌아가시겠습니까?");
 
+	for (int j = 0; j < BACK_TO_MENU_MAX; j++) {
+		gotoxy(STANDARD_CONSOLE, i + j);
+		if (j == index - 1) {
+			printf("%s", "▶");
+		}
+		printf("%s", backToMenus[j]);
+
+	}
+}
+
+void printGame(int index, int i) {
+	gotoxy(STANDARD_HELP_X, STANDARD_HELP_Y);
+	printf("esc 는 pause입니다.");
+
+}
+
+extern void progressMenu() {
 	//메뉴 구성에 필요한 변수 선언
 	int initCount = 1;
-	
-	int direction;
-	
 
-	
-	
-	cursorFix(D_X,D_Y, 1);
+	int direction;
+
+
+
+
+	cursorFix(D_X, D_Y, 1, FLAG_MENU);
 
 	while (1) {//메뉴 반복
 
 		direction = _getch();
-		if (direction == 224 || direction == 0) {
+		if (direction == 224 || direction == 0) {//방향키인가?
 			direction = _getch();
-			
-			switch (direction) {
 
-			case 72:
-				if (initCount != 1) {
-				--initCount;
-			    }
+			switch (direction) {//방향키에서
+
+			case 72://위라면
+				if (initCount != 1) {//맨 위가 아니면
+					--initCount;
+				}
 				break;
 
-			case 80:
-				if (initCount !=4) {
+			case 80://아래라면
+				if (initCount != 4) {//맨 아래가 아니라면
 					++initCount;
 				}
 				break;
@@ -109,32 +139,32 @@ int main(void) {
 
 			}//switch
 		}
-	
+
 		if (initCount == 1) {
-		
-			cursorFix(D_X,D_Y, 1);
-			
+
+			cursorFix(D_X, D_Y, 1, FLAG_MENU);
+
 		}
 		else if (initCount == 2) {
 
-			cursorFix(D_X,D_Y, 2);
-			
-		}
-		else if(initCount==3){
-		
+			cursorFix(D_X, D_Y, 2, FLAG_MENU);
 
-			cursorFix(D_X,D_Y, 3);
-			
+		}
+		else if (initCount == 3) {
+
+
+			cursorFix(D_X, D_Y, 3, FLAG_MENU);
+
 		}
 		else {
-	
-			cursorFix(D_X,D_Y,4);
-			
+
+			cursorFix(D_X, D_Y, 4, FLAG_MENU);
+
 		}
 
 		if (direction == 13) {//엔터키를 누름.
 			if (initCount == 1) {//easy mode
-				gameEasy();
+				progressGame();
 			}
 			else if (initCount == 2) {//normal mode
 
@@ -151,6 +181,11 @@ int main(void) {
 
 
 	}
+}
+
+int main(void) {
+
+	progressMenu();
 	
 	return 0;
 }
