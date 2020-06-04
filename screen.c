@@ -100,4 +100,22 @@ void printGame(int index, int i) {
 	gotoxy(STANDARD_HELP_X, STANDARD_HELP_Y);
 	printf("esc 는 pause입니다.");
 
+	
+	for (int a = 11; a < 68; a++) {
+		
+		for (int b = 3; b < 23; b++) {
+			if (a == 11 || a == 67 || b == 3 || b == 22) {
+	        gotoxy(a, b);
+			
+			printf("@");
+			}
+			else if (a == 12 && b == 4) {
+				gotoxy(a, b);
+				printf("Y");
+			}
+		
+		}
+	}
+	
+
 }
