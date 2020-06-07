@@ -64,17 +64,17 @@ extern void progressMenu() {
 
 		if (direction == 13) {//엔터키를 누름.
 			if (initCount == 1) {//easy mode
-				progressGame();
+				progressGame(3,4,1);
 			}
 			else if (initCount == 2) {//normal mode
-
+				progressGame(5,7,3);
 			}
 			else if (initCount == 3) {//hard mode
-
+				progressGame(9,11,3);
 			}
 			else { //exit
 
-				return;
+				exit(0);
 			}
 
 		}

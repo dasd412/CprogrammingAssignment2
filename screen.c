@@ -5,6 +5,7 @@ char* backToMenus[BACK_TO_MENU_MAX] = { "예","아니오" };
 
 
 
+
 extern void gotoxy(int x, int y) {
 	COORD pos;
 	pos.X = x;
@@ -100,22 +101,29 @@ void printGame(int index, int i) {
 	gotoxy(STANDARD_HELP_X, STANDARD_HELP_Y);
 	printf("esc 는 pause입니다.");
 
+
 	
-	for (int a = 11; a < 68; a++) {
+	for (int a = 0; a < BOARD_WIDTH; a++) {//11~68
 		
-		for (int b = 3; b < 23; b++) {
-			if (a == 11 || a == 67 || b == 3 || b == 22) {
-	        gotoxy(a, b);
+		for (int b = 0; b < BOARD_HEIGHT; b++) {//3~23
 			
-			printf("@");
-			}
-			else if (a == 12 && b == 4) {
-				gotoxy(a, b);
-				printf("Y");
+				gotoxy(a + 11, b + 3);
+				if (board.gameBoard[a][b] == WALL) {
+					printf("@");
+				}
+				else if (board.gameBoard[a][b] == MAN) {
+					printf("Y");
+				}
+				else if (board.gameBoard[a][b] == BOMB) {
+					printf("*");
+				}
+				
+
 			}
 		
-		}
+		
 	}
 	
 
 }
+

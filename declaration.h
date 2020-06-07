@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <Windows.h>
+#include <time.h>
 
 //함수 선언
 void progressMenu();
@@ -16,7 +17,9 @@ void printMenu(int, int);
 void printBackToMenu(int, int);
 void printGame(int, int);
 void cursorFix(int, int, int, int);
-void progressGame();
+void progressGame(int,int,int);
+
+void initMap(int,int,int);
 
 //기호 상수 선언
 
@@ -41,6 +44,30 @@ void progressGame();
 #define NORMALMODE 1
 #define HARDMODE 2
 
+#define ON 1
+#define OFF 0
 
+#define TREASUE 0
+#define BOMB 1
+#define FLAG 2
+#define MAN 3
+#define WALL 4
+#define NONE 5
+
+#define VISITED 1
+#define YET 0
+
+#define BOARD_WIDTH 57
+#define BOARD_HEIGHT 20
+
+#define START_X 1
+#define START_Y 1
+
+struct Board {
+	int gameBoard[BOARD_WIDTH][BOARD_HEIGHT];
+	int visited[BOARD_WIDTH][BOARD_HEIGHT];
+	int realMap[BOARD_WIDTH][BOARD_HEIGHT];
+	int initFlag;
+}board;
 
 #endif
