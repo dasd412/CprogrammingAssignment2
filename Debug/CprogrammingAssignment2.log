@@ -1,3 +1,2 @@
 ﻿  game.c
-C:\Users\dasd4\source\repos\CprogrammingAssignment2\CprogrammingAssignment2\game.c(153): warning C4101: 'cursor' :참조되지 않은 지역 변수입니다.
   CprogrammingAssignment2.vcxproj -> C:\Users\dasd4\source\repos\CprogrammingAssignment2\Debug\CprogrammingAssignment2.exe

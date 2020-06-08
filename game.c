@@ -150,7 +150,6 @@ void backToMain(int bombCount, int flagCount, int trasureCount) {
 
 extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 	
-	int cursor;
 	int temp_x, temp_y;
 	int canGo_flag=OFF;
 
@@ -224,6 +223,9 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 			}//switch
 			if (canGo_flag == ON) {
 				board.gameBoard[man.x][man.y] = MAN;
+				if (whatsThis(temp_x, temp_y)==ON) {
+					findAndCollect(temp_x, temp_y);
+				}
 			    board.gameBoard[temp_x][temp_y] = NONE;
 			}
 			
@@ -237,6 +239,18 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 
 	}
 	
+}
+void findAndCollect(int x, int y) {
+
+}
+
+int whatsThis(int x, int y) {
+	if (board.gameBoard[x][y] != NONE) {
+		return ON;
+	}
+	else {
+		return OFF;
+	}
 }
 
 int canGo(int man_x,int man_y) {

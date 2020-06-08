@@ -19,7 +19,9 @@ void printGame(int, int);
 void cursorFix(int, int, int, int);
 void progressGame(int,int,int);
 int canGo(int,int);
+int whatsThis(int,int);
 void initMap(int,int,int);
+void findAndCollect(int, int);
 
 //기호 상수 선언
 
