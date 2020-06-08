@@ -4,7 +4,9 @@ char* menus[MENU_MAX] = { "EASY","NORMAL","HARD","EXIT" };
 char* backToMenus[BACK_TO_MENU_MAX] = { "예","아니오" };
 
 
+extern void printFinal() {
 
+}
 
 extern void gotoxy(int x, int y) {
 	COORD pos;

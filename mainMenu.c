@@ -11,7 +11,7 @@ extern void progressMenu() {
 	int direction;
 
 	
-
+	
 
 	cursorFix(D_X, D_Y, 1, FLAG_MENU);
 
@@ -63,14 +63,20 @@ extern void progressMenu() {
 		}
 
 		if (direction == 13) {//엔터키를 누름.
+			format.isNew = ON;
+
 			if (initCount == 1) {//easy mode
+				
 				progressGame(easyMode.bombCount,easyMode.flagCount,easyMode.treasureCount);
+				
 			}
 			else if (initCount == 2) {//normal mode
 				progressGame(normalMode.bombCount,normalMode.flagCount,normalMode.treasureCount);
+				
 			}
 			else if (initCount == 3) {//hard mode
 				progressGame(hardMode.bombCount,hardMode.flagCount,hardMode.treasureCount);
+				
 			}
 			else { //exit
 

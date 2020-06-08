@@ -309,8 +309,10 @@ void backToMain(int bombCount, int flagCount, int trasureCount) {
 }
 void initGameFormat() {
 	//game init
-
-	format.score = 0;
+	if (format.isNew == ON) {
+		format.score = 0;
+	}
+	
 	format.keyCount =600;
 }
 
@@ -328,7 +330,7 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 	
 	cursorFix(D_X, D_Y, 1, FLAG_GAME);
 
-	while (1) {//메뉴 반복
+	while (treasure.doubule+treasure.score>0) {//메뉴 반복
 
 		if (flag_ESC == ON_ESC) {//백투 메인이 켜져있는 경우
 		
@@ -409,8 +411,32 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 
 
 	}
+
+	calculateScore();
+	board.initFlag = OFF;
+	format.isNew = OFF;
+	if (flagCount == easyMode.flagCount) {
+		progressGame(normalMode.bombCount, normalMode.flagCount, normalMode.treasureCount);
+	}
+	else if (flagCount == normalMode.flagCount) {
+		progressGame(hardMode.bombCount, hardMode.flagCount, hardMode.treasureCount);
+	}
+	else  {
+		printf("cls");
+		printf("flag:%d", flagCount);
+		printFinal();
+		exit(0);
+	}
 	
 }
+
+void calculateScore() {
+	
+	
+	format.score = format.score * 10 - format.keyCount * 2;
+	
+ }
+
 void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 	/* 
 #define TREASURE_PLUS 0

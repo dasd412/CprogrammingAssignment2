@@ -28,7 +28,8 @@ void initBomb(int);
 void initTreasure(int);
 void initWall();
 void reAllocateMap(int, int);
-
+void calculateScore();
+void printFinal();
 //기호 상수 선언
 
 #define D_X 9
@@ -112,7 +113,7 @@ struct Man {
 struct GameFormat {
 	int score;
 	int keyCount;
-
+	int isNew;
 }format;
 
 struct Bomb {
