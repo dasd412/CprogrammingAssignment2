@@ -22,6 +22,9 @@ int canGo(int,int);
 int whatsThis(int,int);
 void initMap(int,int,int);
 void findAndCollect(int, int);
+void printGameHelp();
+void initGameFormat();
+
 
 //기호 상수 선언
 
@@ -69,6 +72,10 @@ void findAndCollect(int, int);
 #define START_X 1
 #define START_Y 1
 
+#define HELP_X 75
+#define HELP_Y 3
+
+
 struct Board {
 	int gameBoard[BOARD_WIDTH][BOARD_HEIGHT];
 	int visited[BOARD_WIDTH][BOARD_HEIGHT];
@@ -98,5 +105,13 @@ struct Man {
 	int x;
 	int y;
 }man;
+
+struct GameFormat {
+	int score;
+	long start;
+	long end;
+	long elapse;
+
+}format;
 
 #endif

@@ -98,8 +98,8 @@ void printBackToMenu(int index, int i) {
 }
 
 void printGame(int index, int i) {
-	gotoxy(STANDARD_HELP_X, STANDARD_HELP_Y);
-	printf("esc 는 pause입니다.");
+	
+	printGameHelp();
 
 
 	
@@ -137,5 +137,18 @@ void printGame(int index, int i) {
 	}
 	
 
+}
+
+void printGameHelp() {
+	gotoxy(HELP_X, HELP_Y);
+	printf("점수:%d", format.score);
+	gotoxy(HELP_X, HELP_Y+1);
+	printf("시간:%d", format.elapse);
+	gotoxy(HELP_X, HELP_Y + 2);
+	printf("esc 는 pause입니다.");
+	gotoxy(HELP_X , HELP_Y+3);
+	printf("주어진 시간 내에 보물을 획득하십시오!");
+	gotoxy(HELP_X, HELP_Y + 4);
+	printf("단, 장애물들도 숨어있습니다!");
 }
 

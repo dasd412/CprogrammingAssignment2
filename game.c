@@ -1,6 +1,5 @@
 #include"declaration.h"
 
-int score = 0;
 
 #define OFF_ESC 0
 #define ON_ESC 1
@@ -18,6 +17,8 @@ void initMap(int bombCount, int flagCount, int trasureCount) {
 	int x, y;
 	int bomb_reset, bomb_map, bomb_return;
 	int treasure_plus, treasure_double;
+
+	
 
 	bomb_reset = bombCount / 3;
 	bomb_map = bombCount / 3;
@@ -178,11 +179,22 @@ void backToMain(int bombCount, int flagCount, int trasureCount) {
 	}
 }
 
+void initGameFormat() {
+	//game init
+
+	format.score = 0;
+	format.start = 0;
+	format.end = 0;
+	format.elapse=0;
+}
+
 
 extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 	
 	int temp_x, temp_y;
 	int canGo_flag=OFF;
+
+	initGameFormat();
 
 	if (board.initFlag == OFF) {
       initMap(bombCount, flagCount, trasureCount);
@@ -271,7 +283,7 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 	}
 	
 }
-void findAndCollect(int x, int y) {
+void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 
 }
 
