@@ -312,6 +312,7 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 #define BOMB_RETURN 7
 #define TREASURE_DOUBLE 8
 */
+	int temp_x=x, temp_y=y;
 	
 	switch (board.gameBoard[x][y]) {
 	case TREASURE_PLUS: format.score += 100; break;
@@ -322,7 +323,11 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 		format.score -= 100;
 		break;
 
-	case BOMB_RETURN: break;
+	case BOMB_RETURN:
+		man.x = START_X;
+		man.y = START_Y;
+		board.gameBoard[temp_x][temp_y] = NONE;
+		break;
 
 	case TREASURE_DOUBLE:
 		if (format.score == 0) {
