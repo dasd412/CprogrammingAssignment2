@@ -114,8 +114,14 @@ void printGame(int index, int i) {
 				else if (board.gameBoard[a][b] == MAN) {
 					printf("Y");
 				}
-				else if (board.gameBoard[a][b] == BOMB) {
+				else if (board.gameBoard[a][b] == BOMB_SCORE) {
 					printf("*");
+				}
+				else if (board.gameBoard[a][b] == BOMB_MAP) {
+					printf("&");
+				}
+				else if (board.gameBoard[a][b] == BOMB_RETURN) {
+					printf("#");
 				}
 				
 

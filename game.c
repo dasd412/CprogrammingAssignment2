@@ -16,6 +16,12 @@ int input;
 void initMap(int bombCount, int flagCount, int trasureCount) {
 
 	int x, y;
+	int bomb_reset, bomb_map, bomb_return;
+
+	bomb_reset = bombCount / 3;
+	bomb_map = bombCount / 3;
+	bomb_return = bombCount / 3;
+
 
 	for (int i = 0; i < BOARD_WIDTH; i++) {
 		for (int j = 0; j < BOARD_HEIGHT; j++) {
@@ -36,8 +42,11 @@ void initMap(int bombCount, int flagCount, int trasureCount) {
 	
 
 	//man init
-	board.gameBoard[START_X][START_Y] = MAN;
-	board.visited[START_X][START_Y] = VISITED;
+	man.x = START_X;
+	man.y = START_Y;
+	board.gameBoard[man.x][man.y] = MAN;
+	board.visited[man.x][man.y] = VISITED;
+	
 
 	//bomb init
 
@@ -45,10 +54,36 @@ void initMap(int bombCount, int flagCount, int trasureCount) {
 		for (int j = 0; j < BOARD_HEIGHT; j++) {
 			x = rand() % BOARD_WIDTH;
 			y = rand() % BOARD_HEIGHT;
-			if (board.visited[x][y] == YET && bombCount > 0) {
+			if (board.visited[x][y] == YET && bomb_reset > 0) {
 
-				board.gameBoard[x][y] = BOMB;
-				bombCount--;
+				board.gameBoard[x][y] = BOMB_SCORE;
+				bomb_reset--;
+				board.visited[x][y] = VISITED;
+			}
+		}
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && bomb_map > 0) {
+
+				board.gameBoard[x][y] = BOMB_MAP;
+				bomb_map--;
+				board.visited[x][y] = VISITED;
+			}
+		}
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && bomb_return > 0) {
+
+				board.gameBoard[x][y] = BOMB_RETURN;
+				bomb_return--;
 				board.visited[x][y] = VISITED;
 			}
 		}
@@ -114,10 +149,16 @@ void backToMain(int bombCount, int flagCount, int trasureCount) {
 
 
 extern void progressGame(int bombCount, int flagCount, int trasureCount) {
+	
+	int cursor;
+	int temp_x, temp_y;
+	int canGo_flag=OFF;
+
 	if (board.initFlag == OFF) {
       initMap(bombCount, flagCount, trasureCount);
 	}
 	
+	cursorFix(D_X, D_Y, 1, FLAG_GAME);
 
 	while (1) {//메뉴 반복
 
@@ -126,6 +167,7 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 			backToMain(bombCount, flagCount, trasureCount);
 		}
 		else {
+			
 			cursorFix(D_X, D_Y, 1, FLAG_GAME);
 		}
 
@@ -137,10 +179,72 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 		else if (flag_ESC == ON_ESC && input == 27) {//ESC를 누른 상태일 경우 플래그 오프
 			flag_ESC = OFF_ESC;
 		}
+		else {
+			if (input == 224 || input == 0) {
+			input = _getch();
+			temp_x = man.x;
+			temp_y = man.y;				
+			canGo_flag = OFF;
+			switch (input) {
+				
+			case 72://위
+				if (canGo(man.x,man.y - 1)==ON) {
+					man.y = man.y -1;
+					canGo_flag = ON;
+				}
+				
 
+				break;
+
+			case 75://왼
+				if (canGo(man.x - 1,man.y)== ON) {
+					man.x = man.x -1 ;
+					canGo_flag = ON;
+				}
+			
+				break;
+
+			case 77://오른쪽
+				if (canGo(man.x + 1,man.y)== ON) {
+					man.x = man.x + 1;
+					canGo_flag = ON;
+				}
+				
+				break;
+
+			case 80://아래
+				if (canGo(man.x,man.y + 1)== ON) {
+					man.y = man.y + 1;
+					canGo_flag = ON;
+				}
+				
+				break;
+
+			default:break;
+			}//switch
+			if (canGo_flag == ON) {
+				board.gameBoard[man.x][man.y] = MAN;
+			    board.gameBoard[temp_x][temp_y] = NONE;
+			}
+			
+
+		}
+
+		}
+		
 		
 
 
 	}
 	
+}
+
+int canGo(int man_x,int man_y) {
+
+	if (board.gameBoard[man_x][man_y] == WALL) {
+		return OFF;
+	}
+	else {
+		return ON;
+	}
 }

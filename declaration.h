@@ -12,13 +12,13 @@
 
 //함수 선언
 void progressMenu();
-
+void initMode();
 void printMenu(int, int);
 void printBackToMenu(int, int);
 void printGame(int, int);
 void cursorFix(int, int, int, int);
 void progressGame(int,int,int);
-
+int canGo(int,int);
 void initMap(int,int,int);
 
 //기호 상수 선언
@@ -48,11 +48,14 @@ void initMap(int,int,int);
 #define OFF 0
 
 #define TREASUE 0
-#define BOMB 1
+#define BOMB_MAP 1
 #define FLAG 2
 #define MAN 3
 #define WALL 4
 #define NONE 5
+#define BOMB_SCORE 6
+#define BOMB_RETURN 7
+
 
 #define VISITED 1
 #define YET 0
@@ -69,5 +72,28 @@ struct Board {
 	int realMap[BOARD_WIDTH][BOARD_HEIGHT];
 	int initFlag;
 }board;
+
+struct Easy {
+	int bombCount;
+	int flagCount;
+	int treasureCount;
+}easyMode;
+
+struct Normal {
+	int bombCount;
+	int flagCount;
+	int treasureCount;
+}normalMode;
+
+struct Hard {
+	int bombCount;
+	int flagCount;
+	int treasureCount;
+}hardMode;
+
+struct Man {
+	int x;
+	int y;
+}man;
 
 #endif
