@@ -9,9 +9,6 @@ int input;
 
 
 
-void initFlag( int flagCount) {
-	
-}
 
 void initTreasure(int trasureCount) {
 	int x, y;
@@ -35,6 +32,7 @@ void initTreasure(int trasureCount) {
 				board.gameBoard[x][y] = TREASURE_PLUS;
 				treasure_plus--;
 				board.visited[x][y] = VISITED;
+				board.view[x][y] = FLAG;
 			}
 		}
 	}
@@ -48,6 +46,7 @@ void initTreasure(int trasureCount) {
 				board.gameBoard[x][y] = TREASURE_DOUBLE;
 				treasure_double--;
 				board.visited[x][y] = VISITED;
+				board.view[x][y] = FLAG;
 			}
 		}
 	}
@@ -74,6 +73,7 @@ void initBomb(int bombCount) {
 				board.gameBoard[x][y] = BOMB_SCORE;
 				bomb_reset--;
 				board.visited[x][y] = VISITED;
+				board.view[x][y] = FLAG;
 			}
 		}
 	}
@@ -87,6 +87,7 @@ void initBomb(int bombCount) {
 				board.gameBoard[x][y] = BOMB_MAP;
 				bomb_map--;
 				board.visited[x][y] = VISITED;
+				board.view[x][y] = FLAG;
 			}
 		}
 	}
@@ -100,6 +101,7 @@ void initBomb(int bombCount) {
 				board.gameBoard[x][y] = BOMB_RETURN;
 				bomb_return--;
 				board.visited[x][y] = VISITED;
+				board.view[x][y] = FLAG;
 			}
 		}
 	}
@@ -122,7 +124,7 @@ void initMap(int bombCount, int flagCount, int trasureCount) {
 	man.y = START_Y;
 	board.gameBoard[man.x][man.y] = MAN;
 	board.visited[man.x][man.y] = VISITED;
-	
+	board.view[man.x][man.y] = MAN;
 
 	//bomb init
 	initBomb( bombCount);
@@ -142,12 +144,12 @@ void initWall() {
 			if (i == 0 || j == 0 || i == BOARD_WIDTH - 1 || j == BOARD_HEIGHT - 1) {
 				board.gameBoard[i][j] = WALL;
 				board.visited[i][j] = VISITED;
-				board.realMap[i][j] = WALL;
+				board.view[i][j] = WALL;
 			}
 			else {
 				board.gameBoard[i][j] = NONE;
 				board.visited[i][j] = YET;
-				board.realMap[i][j] = NONE;
+				board.view[i][j] = NONE;
 
 			}
 
@@ -328,19 +330,21 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 	switch (board.gameBoard[x][y]) {
 	case TREASURE_PLUS:
 		treasure.score -= 1;
-		printf("%d", treasure.score);
+		
 		format.score += 100; break;
 
 	case BOMB_MAP:
 		bombs.map -= 1;
-		printf("%d", bombs.map);
+		
+		reAllocateMap(x,y);
+
 		break;
 
 	case BOMB_SCORE:
 		bombs.reset -= 1;
 
 
-		printf("%d", bombs.reset);
+		
 
 		format.score =0;
 		break;
@@ -348,7 +352,7 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 	case BOMB_RETURN:
 		bombs.ret -= 1;
 
-		printf("%d", bombs.ret);
+		
 
 		man.x = START_X;
 		man.y = START_Y;
@@ -357,7 +361,7 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 
 	case TREASURE_DOUBLE:
 		treasure.doubule -= 1;
-		printf("%d", treasure.doubule);
+		
 
 		if (format.score == 0) {
 			format.score = format.score + 100;
@@ -372,6 +376,9 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 	default:break;
 
 	}
+
+}
+void reAllocateMap(int x, int y) {
 
 }
 

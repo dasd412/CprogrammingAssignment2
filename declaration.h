@@ -25,9 +25,9 @@ void findAndCollect(int, int);
 void printGameHelp();
 void initGameFormat();
 void initBomb(int);
-void initFlag( int);
 void initTreasure(int);
 void initWall();
+void reAllocateMap(int, int);
 
 //기호 상수 선언
 
@@ -82,7 +82,7 @@ void initWall();
 struct Board {
 	int gameBoard[BOARD_WIDTH][BOARD_HEIGHT];
 	int visited[BOARD_WIDTH][BOARD_HEIGHT];
-	int realMap[BOARD_WIDTH][BOARD_HEIGHT];
+	int view[BOARD_WIDTH][BOARD_HEIGHT];
 	int initFlag;
 }board;
 

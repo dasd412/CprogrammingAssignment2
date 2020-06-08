@@ -145,7 +145,7 @@ void printGameHelp() {
 	gotoxy(HELP_X, HELP_Y+3);
 	printf("이동 횟수:%d", format.keyCount);
 	gotoxy(HELP_X, HELP_Y + 5);
-	printf("esc 는 pause입니다.");
+	printf("방향키로 움직일 수 있고, esc 는 pause입니다.");
 	gotoxy(HELP_X , HELP_Y+6);
 	printf("주어진 이동 횟수 내에 모든 보물을 획득하세요!");
 	gotoxy(HELP_X, HELP_Y + 7);
