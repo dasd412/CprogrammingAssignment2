@@ -123,6 +123,12 @@ void printGame(int index, int i) {
 				else if (board.gameBoard[a][b] == BOMB_RETURN) {
 					printf("#");
 				}
+				else if (board.gameBoard[a][b] == TREASURE_PLUS) {
+					printf("$");
+				}
+				else if (board.gameBoard[a][b] == TREASURE_DOUBLE) {
+					printf("!");
+				}
 				
 
 			}

@@ -94,15 +94,15 @@ int main(void) {
 
 void initMode() {
     easyMode.bombCount = 3; 
-	easyMode.flagCount = 4;
-	easyMode.treasureCount = 1;
+	easyMode.flagCount = 5;
+	easyMode.treasureCount = 2;
 
 	normalMode.bombCount = 6;
-	normalMode.flagCount = 9;
-	normalMode.treasureCount = 3;
+	normalMode.flagCount = 10;
+	normalMode.treasureCount = 4;
 
 	hardMode.bombCount = 9;
-	hardMode.flagCount = 12;
-	hardMode.treasureCount = 3;
+	hardMode.flagCount = 13;
+	hardMode.treasureCount = 4;
 
 }

@@ -49,7 +49,7 @@ void findAndCollect(int, int);
 #define ON 1
 #define OFF 0
 
-#define TREASUE 0
+#define TREASURE_PLUS 0
 #define BOMB_MAP 1
 #define FLAG 2
 #define MAN 3
@@ -57,6 +57,7 @@ void findAndCollect(int, int);
 #define NONE 5
 #define BOMB_SCORE 6
 #define BOMB_RETURN 7
+#define TREASURE_DOUBLE 8
 
 
 #define VISITED 1

@@ -17,12 +17,16 @@ void initMap(int bombCount, int flagCount, int trasureCount) {
 
 	int x, y;
 	int bomb_reset, bomb_map, bomb_return;
+	int treasure_plus, treasure_double;
 
 	bomb_reset = bombCount / 3;
 	bomb_map = bombCount / 3;
 	bomb_return = bombCount / 3;
 
+	treasure_double = trasureCount / 2;
+	treasure_plus=trasureCount/2;
 
+	//wall init
 	for (int i = 0; i < BOARD_WIDTH; i++) {
 		for (int j = 0; j < BOARD_HEIGHT; j++) {
 			if (i == 0 || j == 0 || i == BOARD_WIDTH - 1||j==BOARD_HEIGHT-1) {
@@ -89,6 +93,33 @@ void initMap(int bombCount, int flagCount, int trasureCount) {
 		}
 	}
 
+	//treasure init
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && treasure_plus > 0) {
+
+				board.gameBoard[x][y] = TREASURE_PLUS;
+				treasure_plus--;
+				board.visited[x][y] = VISITED;
+			}
+		}
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && treasure_double > 0) {
+
+				board.gameBoard[x][y] = TREASURE_DOUBLE;
+				treasure_double--;
+				board.visited[x][y] = VISITED;
+			}
+		}
+	}
 
 	board.initFlag = ON;
 
