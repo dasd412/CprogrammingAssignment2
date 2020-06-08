@@ -23,6 +23,9 @@ void initTreasure(int trasureCount) {
 	treasure_double = trasureCount / 2;
 	treasure_plus = trasureCount / 2;
 
+	treasure.doubule = treasure_double;
+	treasure.score = treasure_plus;
+
 	for (int i = 0; i < BOARD_WIDTH; i++) {
 		for (int j = 0; j < BOARD_HEIGHT; j++) {
 			x = rand() % BOARD_WIDTH;
@@ -57,6 +60,10 @@ void initBomb(int bombCount) {
 	bomb_reset = bombCount / 3;
 	bomb_map = bombCount / 3;
 	bomb_return = bombCount / 3;
+
+	bombs.reset = bomb_reset;
+	bombs.map = bomb_map;
+	bombs.ret = bomb_return;
 
 	for (int i = 0; i < BOARD_WIDTH; i++) {
 		for (int j = 0; j < BOARD_HEIGHT; j++) {
@@ -107,23 +114,8 @@ void initMap(int bombCount, int flagCount, int trasureCount) {
 
 
 	//wall init
-	for (int i = 0; i < BOARD_WIDTH; i++) {
-		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			if (i == 0 || j == 0 || i == BOARD_WIDTH - 1||j==BOARD_HEIGHT-1) {
-				board.gameBoard[i][j] = WALL;
-			    board.visited[i][j] = VISITED;
-			    board.realMap[i][j] = WALL;
-			}
-			else {
-				board.gameBoard[i][j] = NONE;
-			    board.visited[i][j] = YET;
-			    board.realMap[i][j] = NONE;
 
-			}
-			
-		}
-	}
-	
+	initWall();
 
 	//man init
 	man.x = START_X;
@@ -142,6 +134,25 @@ void initMap(int bombCount, int flagCount, int trasureCount) {
 
 	board.initFlag = ON;
 
+}
+
+void initWall() {
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			if (i == 0 || j == 0 || i == BOARD_WIDTH - 1 || j == BOARD_HEIGHT - 1) {
+				board.gameBoard[i][j] = WALL;
+				board.visited[i][j] = VISITED;
+				board.realMap[i][j] = WALL;
+			}
+			else {
+				board.gameBoard[i][j] = NONE;
+				board.visited[i][j] = YET;
+				board.realMap[i][j] = NONE;
+
+			}
+
+		}
+	}
 }
 
 
@@ -315,21 +326,39 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 	int temp_x=x, temp_y=y;
 	
 	switch (board.gameBoard[x][y]) {
-	case TREASURE_PLUS: format.score += 100; break;
+	case TREASURE_PLUS:
+		treasure.score -= 1;
+		printf("%d", treasure.score);
+		format.score += 100; break;
 
-	case BOMB_MAP: break;
+	case BOMB_MAP:
+		bombs.map -= 1;
+		printf("%d", bombs.map);
+		break;
 
 	case BOMB_SCORE:
-		format.score -= 100;
+		bombs.reset -= 1;
+
+
+		printf("%d", bombs.reset);
+
+		format.score =0;
 		break;
 
 	case BOMB_RETURN:
+		bombs.ret -= 1;
+
+		printf("%d", bombs.ret);
+
 		man.x = START_X;
 		man.y = START_Y;
 		board.gameBoard[temp_x][temp_y] = NONE;
 		break;
 
 	case TREASURE_DOUBLE:
+		treasure.doubule -= 1;
+		printf("%d", treasure.doubule);
+
 		if (format.score == 0) {
 			format.score = format.score + 100;
 		}

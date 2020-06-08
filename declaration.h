@@ -27,6 +27,7 @@ void initGameFormat();
 void initBomb(int);
 void initFlag( int);
 void initTreasure(int);
+void initWall();
 
 //기호 상수 선언
 
@@ -113,5 +114,16 @@ struct GameFormat {
 	int keyCount;
 
 }format;
+
+struct Bomb {
+	int reset;
+	int ret;
+	int map;
+}bombs;
+
+struct Treasure {
+	int doubule;
+	int score;
+}treasure;
 
 #endif
