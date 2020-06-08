@@ -142,13 +142,15 @@ void printGame(int index, int i) {
 void printGameHelp() {
 	gotoxy(HELP_X, HELP_Y);
 	printf("점수:%d", format.score);
-	gotoxy(HELP_X, HELP_Y+1);
+	gotoxy(HELP_X, HELP_Y+3);
 	printf("시간:%d", format.elapse);
-	gotoxy(HELP_X, HELP_Y + 2);
+	gotoxy(HELP_X, HELP_Y + 5);
 	printf("esc 는 pause입니다.");
-	gotoxy(HELP_X , HELP_Y+3);
-	printf("주어진 시간 내에 보물을 획득하십시오!");
-	gotoxy(HELP_X, HELP_Y + 4);
+	gotoxy(HELP_X , HELP_Y+6);
+	printf("주어진 시간 내에 모든 보물을 획득하십시오!");
+	gotoxy(HELP_X, HELP_Y + 7);
 	printf("단, 장애물들도 숨어있습니다!");
+	gotoxy(HELP_X, HELP_Y + 8);
+	printf("최종 점수는 걸린 시간을 이용하여 계산됩니다.");
 }
 

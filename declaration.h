@@ -24,7 +24,9 @@ void initMap(int,int,int);
 void findAndCollect(int, int);
 void printGameHelp();
 void initGameFormat();
-
+void initBomb(int);
+void initFlag( int);
+void initTreasure(int);
 
 //기호 상수 선언
 

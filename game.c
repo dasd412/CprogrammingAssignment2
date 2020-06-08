@@ -9,51 +9,54 @@ int input;
 
 
 
+void initFlag( int flagCount) {
+	
+}
 
-
-
-void initMap(int bombCount, int flagCount, int trasureCount) {
-
+void initTreasure(int trasureCount) {
 	int x, y;
-	int bomb_reset, bomb_map, bomb_return;
 	int treasure_plus, treasure_double;
 
-	
+
+
+
+	treasure_double = trasureCount / 2;
+	treasure_plus = trasureCount / 2;
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && treasure_plus > 0) {
+
+				board.gameBoard[x][y] = TREASURE_PLUS;
+				treasure_plus--;
+				board.visited[x][y] = VISITED;
+			}
+		}
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && treasure_double > 0) {
+
+				board.gameBoard[x][y] = TREASURE_DOUBLE;
+				treasure_double--;
+				board.visited[x][y] = VISITED;
+			}
+		}
+	}
+}
+
+void initBomb(int bombCount) {
+	int x, y;
+	int bomb_reset, bomb_map, bomb_return;
 
 	bomb_reset = bombCount / 3;
 	bomb_map = bombCount / 3;
 	bomb_return = bombCount / 3;
-
-	treasure_double = trasureCount / 2;
-	treasure_plus=trasureCount/2;
-
-	//wall init
-	for (int i = 0; i < BOARD_WIDTH; i++) {
-		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			if (i == 0 || j == 0 || i == BOARD_WIDTH - 1||j==BOARD_HEIGHT-1) {
-				board.gameBoard[i][j] = WALL;
-			    board.visited[i][j] = VISITED;
-			    board.realMap[i][j] = WALL;
-			}
-			else {
-				board.gameBoard[i][j] = NONE;
-			    board.visited[i][j] = YET;
-			    board.realMap[i][j] = NONE;
-
-			}
-			
-		}
-	}
-	
-
-	//man init
-	man.x = START_X;
-	man.y = START_Y;
-	board.gameBoard[man.x][man.y] = MAN;
-	board.visited[man.x][man.y] = VISITED;
-	
-
-	//bomb init
 
 	for (int i = 0; i < BOARD_WIDTH; i++) {
 		for (int j = 0; j < BOARD_HEIGHT; j++) {
@@ -93,34 +96,49 @@ void initMap(int bombCount, int flagCount, int trasureCount) {
 			}
 		}
 	}
+}
+
+
+void initMap(int bombCount, int flagCount, int trasureCount) {
+
+
+	
+
+
+
+	//wall init
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			if (i == 0 || j == 0 || i == BOARD_WIDTH - 1||j==BOARD_HEIGHT-1) {
+				board.gameBoard[i][j] = WALL;
+			    board.visited[i][j] = VISITED;
+			    board.realMap[i][j] = WALL;
+			}
+			else {
+				board.gameBoard[i][j] = NONE;
+			    board.visited[i][j] = YET;
+			    board.realMap[i][j] = NONE;
+
+			}
+			
+		}
+	}
+	
+
+	//man init
+	man.x = START_X;
+	man.y = START_Y;
+	board.gameBoard[man.x][man.y] = MAN;
+	board.visited[man.x][man.y] = VISITED;
+	
+
+	//bomb init
+	initBomb( bombCount);
+
 
 	//treasure init
+	initTreasure(trasureCount);
 
-	for (int i = 0; i < BOARD_WIDTH; i++) {
-		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			x = rand() % BOARD_WIDTH;
-			y = rand() % BOARD_HEIGHT;
-			if (board.visited[x][y] == YET && treasure_plus > 0) {
-
-				board.gameBoard[x][y] = TREASURE_PLUS;
-				treasure_plus--;
-				board.visited[x][y] = VISITED;
-			}
-		}
-	}
-
-	for (int i = 0; i < BOARD_WIDTH; i++) {
-		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			x = rand() % BOARD_WIDTH;
-			y = rand() % BOARD_HEIGHT;
-			if (board.visited[x][y] == YET && treasure_double > 0) {
-
-				board.gameBoard[x][y] = TREASURE_DOUBLE;
-				treasure_double--;
-				board.visited[x][y] = VISITED;
-			}
-		}
-	}
 
 	board.initFlag = ON;
 
@@ -265,10 +283,11 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 			default:break;
 			}//switch
 			if (canGo_flag == ON) {
-				board.gameBoard[man.x][man.y] = MAN;
-				if (whatsThis(temp_x, temp_y)==ON) {
-					findAndCollect(temp_x, temp_y);
+				
+				if (whatsThis(man.x, man.y)==ON) {
+					findAndCollect(man.x, man.y);
 				}
+				board.gameBoard[man.x][man.y] = MAN;
 			    board.gameBoard[temp_x][temp_y] = NONE;
 			}
 			
@@ -284,15 +303,55 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 	
 }
 void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
+	/* 
+#define TREASURE_PLUS 0
+#define BOMB_MAP 1
+#define FLAG 2
+#define MAN 3
+#define WALL 4
+#define NONE 5
+#define BOMB_SCORE 6
+#define BOMB_RETURN 7
+#define TREASURE_DOUBLE 8
+*/
+	printf("find");
+	switch (board.gameBoard[x][y]) {
+	case TREASURE_PLUS: format.score += 100; break;
+
+	case BOMB_MAP: break;
+
+	case BOMB_SCORE:
+		format.score -= 100;
+		break;
+
+	case BOMB_RETURN: break;
+
+	case TREASURE_DOUBLE:
+		if (format.score == 0) {
+			format.score = format.score + 100;
+		}
+		else if (format.score < 0) {
+			format.score = 0;
+		}
+		
+		format.score *= 2;
+		break;
+
+	default:break;
+
+	}
 
 }
 
 int whatsThis(int x, int y) {
-	if (board.gameBoard[x][y] != NONE) {
-		return ON;
+
+	if (board.gameBoard[x][y] == NONE) {
+	
+		return OFF;
 	}
 	else {
-		return OFF;
+		
+		return ON;
 	}
 }
 
