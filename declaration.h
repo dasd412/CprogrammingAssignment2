@@ -29,7 +29,7 @@ void initTreasure(int);
 void initWall();
 void reAllocateMap(int, int);
 void calculateScore();
-void printFinal();
+
 //기호 상수 선언
 
 #define D_X 9
@@ -48,6 +48,7 @@ void printFinal();
 #define FLAG_MENU 0
 #define FLAG_BACK_TO_MENU 1
 #define FLAG_GAME 2
+#define FLAG_FINAL 3
 
 #define EASYMODE 0
 #define NORMALMODE 1

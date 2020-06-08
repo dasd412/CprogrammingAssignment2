@@ -4,9 +4,6 @@ char* menus[MENU_MAX] = { "EASY","NORMAL","HARD","EXIT" };
 char* backToMenus[BACK_TO_MENU_MAX] = { "예","아니오" };
 
 
-extern void printFinal() {
-
-}
 
 extern void gotoxy(int x, int y) {
 	COORD pos;
@@ -46,6 +43,10 @@ extern void cursorFix(int x, int y, int index, int gameFlag) {
 			}
 			else if (gameFlag == FLAG_GAME) {
 				printGame(index, i);
+			}
+			else if (gameFlag == FLAG_FINAL) {
+				gotoxy(11, 3);
+				printf("최종 점수는 %d입니다!!", format.score);
 			}
 
 

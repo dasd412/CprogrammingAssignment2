@@ -422,9 +422,7 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 		progressGame(hardMode.bombCount, hardMode.flagCount, hardMode.treasureCount);
 	}
 	else  {
-		printf("cls");
-		printf("flag:%d", flagCount);
-		printFinal();
+		cursorFix(D_X, D_Y, 1, FLAG_FINAL);
 		exit(0);
 	}
 	
