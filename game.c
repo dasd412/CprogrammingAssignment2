@@ -8,6 +8,104 @@ int flag_ESC=OFF_ESC;
 int input;
 
 
+void reAllocateMap(int x, int y) {
+
+	int bomb_reset, bomb_map, bomb_return;
+	int treasure_plus, treasure_double;
+
+
+
+
+	treasure_double = treasure.doubule;
+	treasure_plus = treasure.score;
+
+	bomb_reset = bombs.reset;
+	bomb_map = bombs.map;
+	bomb_return = bombs.ret;
+
+	initWall();
+
+	//man is on current position
+
+	board.gameBoard[man.x][man.y] = MAN;
+	board.visited[man.x][man.y] = VISITED;
+	board.view[man.x][man.y] = MAN;
+
+	//reallocate bomb
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && bomb_reset > 0) {
+
+				board.gameBoard[x][y] = BOMB_SCORE;
+				bomb_reset--;
+				board.visited[x][y] = VISITED;
+				board.view[x][y] = FLAG;
+			}
+		}
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && bomb_map > 0) {
+
+				board.gameBoard[x][y] = BOMB_MAP;
+				bomb_map--;
+				board.visited[x][y] = VISITED;
+				board.view[x][y] = FLAG;
+			}
+		}
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && bomb_return > 0) {
+
+				board.gameBoard[x][y] = BOMB_RETURN;
+				bomb_return--;
+				board.visited[x][y] = VISITED;
+				board.view[x][y] = FLAG;
+			}
+		}
+	}
+
+	//reallocate treasure
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && treasure_plus > 0) {
+
+				board.gameBoard[x][y] = TREASURE_PLUS;
+				treasure_plus--;
+				board.visited[x][y] = VISITED;
+				board.view[x][y] = FLAG;
+			}
+		}
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && treasure_double > 0) {
+
+				board.gameBoard[x][y] = TREASURE_DOUBLE;
+				treasure_double--;
+				board.visited[x][y] = VISITED;
+				board.view[x][y] = FLAG;
+			}
+		}
+	}
+
+}
 
 
 void initTreasure(int trasureCount) {
@@ -376,9 +474,6 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 	default:break;
 
 	}
-
-}
-void reAllocateMap(int x, int y) {
 
 }
 
