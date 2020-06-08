@@ -400,6 +400,7 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 				}
 				board.gameBoard[man.x][man.y] = MAN;
 			    board.gameBoard[temp_x][temp_y] = NONE;
+				board.view[temp_x][temp_y] = NONE;
 			}
 			
 

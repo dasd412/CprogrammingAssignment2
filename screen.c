@@ -117,6 +117,7 @@ void printGame(int index, int i) {
 				else if (board.gameBoard[a][b] == MAN) {
 					printf("Y");
 				}
+				/*
 				else if (board.gameBoard[a][b] == BOMB_SCORE) {
 					printf("*");
 				}
@@ -131,6 +132,10 @@ void printGame(int index, int i) {
 				}
 				else if (board.gameBoard[a][b] == TREASURE_DOUBLE) {
 					printf("!");
+				}
+				*/
+				else if (board.view[a][b] == FLAG) {
+					printf("?");
 				}
 				
 
