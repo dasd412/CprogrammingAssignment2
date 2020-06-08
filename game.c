@@ -196,14 +196,11 @@ void backToMain(int bombCount, int flagCount, int trasureCount) {
 
 	}
 }
-
 void initGameFormat() {
 	//game init
 
 	format.score = 0;
-	format.start = 0;
-	format.end = 0;
-	format.elapse=0;
+	format.keyCount =600;
 }
 
 
@@ -245,6 +242,7 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 			temp_x = man.x;
 			temp_y = man.y;				
 			canGo_flag = OFF;
+			format.keyCount--;
 			switch (input) {
 				
 			case 72://위
@@ -314,7 +312,7 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 #define BOMB_RETURN 7
 #define TREASURE_DOUBLE 8
 */
-	printf("find");
+	
 	switch (board.gameBoard[x][y]) {
 	case TREASURE_PLUS: format.score += 100; break;
 

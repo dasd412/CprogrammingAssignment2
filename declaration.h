@@ -110,9 +110,7 @@ struct Man {
 
 struct GameFormat {
 	int score;
-	long start;
-	long end;
-	long elapse;
+	int keyCount;
 
 }format;
 
