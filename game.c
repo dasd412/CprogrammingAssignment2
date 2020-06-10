@@ -104,7 +104,7 @@ void reAllocateMap(int x, int y) {
 			}
 		}
 	}
-
+	
 }
 
 
@@ -461,7 +461,7 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 		bombs.map -= 1;
 		
 		reAllocateMap(x,y);
-
+		
 		break;
 
 	case BOMB_SCORE:
@@ -481,6 +481,9 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 		man.x = START_X;
 		man.y = START_Y;
 		board.gameBoard[temp_x][temp_y] = NONE;
+
+		
+
 		break;
 
 	case TREASURE_DOUBLE:
