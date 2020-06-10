@@ -90,7 +90,16 @@ extern void progressMenu() {
 }
 
 int main(void) {
-	
+	PlaySound(TEXT("C:\\testMusic\\media.io_bgm.wav" ),NULL, SND_ASYNC | SND_LOOP);//function for playing music
+
+	/*
+
+	첨부한 음악 파일을 위 경로에 넣으면 음악이 재생됩니다.
+	예를 들어 로컬 디스크 c의 test 폴더에 음악을 넣는다고 하면 코드는 다음과 같습니다.
+	PlaySound(TEXT("C:\\test\\media.io_bgm.wav" ),NULL, SND_ASYNC | SND_LOOP);
+
+	*/
+
 	initMode();
 
 	progressMenu();

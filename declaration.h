@@ -2,6 +2,8 @@
 #ifndef __DECLARATION_H_
 #define _DECLARATION_H_
 //헤더파일 중복 오류 방지
+#pragma comment(lib,"Winmm.lib")
+
 
 #include <stdio.h>
 #include <conio.h>
@@ -9,6 +11,7 @@
 #include <string.h>
 #include <Windows.h>
 #include <time.h>
+#include <mmsystem.h>
 
 //함수 선언
 void progressMenu();
