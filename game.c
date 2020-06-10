@@ -327,7 +327,7 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 	if (board.initFlag == OFF) {
       initMap(bombCount, flagCount, trasureCount);
 	}
-	
+	system("cls");
 	cursorFix(D_X, D_Y, 1, FLAG_GAME);
 
 	while (treasure.doubule+treasure.score>0) {//메뉴 반복
@@ -401,6 +401,7 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 				board.gameBoard[man.x][man.y] = MAN;
 			    board.gameBoard[temp_x][temp_y] = NONE;
 				board.view[temp_x][temp_y] = NONE;
+				changeBuffer(man.x,man.y,temp_x,temp_y);
 			}
 			
 

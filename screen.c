@@ -2,8 +2,11 @@
 
 char* menus[MENU_MAX] = { "EASY","NORMAL","HARD","EXIT" };
 char* backToMenus[BACK_TO_MENU_MAX] = { "예","아니오" };
-
-
+int buffer[BOARD_WIDTH][BOARD_HEIGHT];
+extern void changeBuffer(int man_x, int man_y, int temp_x, int temp_y) {
+	buffer[man_x][man_y] = MAN;
+	buffer[temp_x][temp_y] = NONE;
+}
 
 extern void gotoxy(int x, int y) {
 	COORD pos;
@@ -16,8 +19,11 @@ extern void cursorFix(int x, int y, int index, int gameFlag) {
 	int i;
 	int j = 0;
 
+	if (gameFlag == FLAG_MENU ||gameFlag== FLAG_BACK_TO_MENU) {
+		system("cls");
 
-	system("cls");
+	}
+	
 
 	gotoxy(x, y);
 	printf("┌");
@@ -114,26 +120,12 @@ void printGame(int index, int i) {
 				if (board.gameBoard[a][b] == WALL) {
 					printf("@");
 				}
-				else if (board.gameBoard[a][b] == MAN) {
+				else if (buffer[a][b]==MAN) {
 					printf("Y");
 				}
-				/*
-				else if (board.gameBoard[a][b] == BOMB_SCORE) {
-					printf("*");
+				else if (buffer[a][b] == NONE) {
+					printf(" ");
 				}
-				else if (board.gameBoard[a][b] == BOMB_MAP) {
-					printf("&");
-				}
-				else if (board.gameBoard[a][b] == BOMB_RETURN) {
-					printf("#");
-				}
-				else if (board.gameBoard[a][b] == TREASURE_PLUS) {
-					printf("$");
-				}
-				else if (board.gameBoard[a][b] == TREASURE_DOUBLE) {
-					printf("!");
-				}
-				*/
 				else if (board.view[a][b] == FLAG) {
 					printf("?");
 				}
