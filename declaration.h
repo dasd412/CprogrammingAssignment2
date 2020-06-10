@@ -29,7 +29,7 @@ void initTreasure(int);
 void initWall();
 void reAllocateMap(int, int);
 void calculateScore();
-void changeBuffer(int,int,int,int);
+
 //기호 상수 선언
 
 #define D_X 9
