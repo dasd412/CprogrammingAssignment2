@@ -7,8 +7,111 @@
 int flag_ESC=OFF_ESC;
 int input;//입력 키
 
+void initTreasure(int trasureCount) {//보물 설치 함수
+	int x, y;
+	int treasure_plus, treasure_double;
 
-void reAllocateMap(int x, int y) {
+
+	//입력 받은 인자에 대해 /2을 해주어 각각 대입한다.
+
+	treasure_double = trasureCount / 2;
+	treasure_plus = trasureCount / 2;
+
+	treasure.doubule = treasure_double;
+	treasure.score = treasure_plus;
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			//x,y를 랜덤하게 설정한다.
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && treasure_plus > 0) {//만약 x,y좌표의 위치가 방문한 적이 없고 아직 점수 100점 보물이 남아 있다면
+
+				board.gameBoard[x][y] = TREASURE_PLUS;//데이터에 보물 설치
+				treasure_plus--;
+				board.visited[x][y] = VISITED;//방문했다고 체크
+				board.view[x][y] = FLAG;//화면에는 깃발로 설치
+			}
+		}
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			//x,y를 랜덤하게 설정한다.
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && treasure_double > 0) {//만약 x,y좌표의 위치가 방문한 적이 없고 아직 두배 점수 보물이 남아 있다면
+
+				board.gameBoard[x][y] = TREASURE_DOUBLE;//데이터에 보물 설치
+				treasure_double--;
+				board.visited[x][y] = VISITED;//방문했다고 체크
+				board.view[x][y] = FLAG;//화면에는 깃발로 설치
+			}
+		}
+	}
+}
+
+void initBomb(int bombCount) {//폭탄을 설치하는 함수
+	int x, y;
+	int bomb_reset, bomb_map, bomb_return;
+
+	//입력 받은 인자에 대해 /3을 해주어 각각 대입한다.
+	bomb_reset = bombCount / 3;
+	bomb_map = bombCount / 3;
+	bomb_return = bombCount / 3;
+
+	bombs.reset = bomb_reset;
+	bombs.map = bomb_map;
+	bombs.ret = bomb_return;
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			//x,y를 랜덤하게 설정한다.
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && bomb_reset > 0) {//만약 x,y좌표의 위치가 방문한 적이 없고 아직 reset 폭탄이 남아 있다면
+
+				board.gameBoard[x][y] = BOMB_SCORE;//데이터에 reset 폭탄 설치
+				bomb_reset--;
+				board.visited[x][y] = VISITED;//방문했다고 체크
+				board.view[x][y] = FLAG;//화면에는 깃발로 설치
+			}
+		}
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			//x,y를 랜덤하게 설정한다.
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && bomb_map > 0) {//만약 x,y좌표의 위치가 방문한 적이 없고 아직 랜덤 재배치 폭탄이 남아 있다면
+
+				board.gameBoard[x][y] = BOMB_MAP;//데이터에는 폭탄 설치
+				bomb_map--;
+				board.visited[x][y] = VISITED;//방문했다고 체크
+				board.view[x][y] = FLAG;//화면에는 깃발로 설치
+			}
+		}
+	}
+
+	for (int i = 0; i < BOARD_WIDTH; i++) {
+		for (int j = 0; j < BOARD_HEIGHT; j++) {
+			//x,y를 랜덤하게 설정한다.
+			x = rand() % BOARD_WIDTH;
+			y = rand() % BOARD_HEIGHT;
+			if (board.visited[x][y] == YET && bomb_return > 0) {//만약 x,y좌표의 위치가 방문한 적이 없고 아직 시작지점 점프 폭탄이 남아 있다면
+
+				board.gameBoard[x][y] = BOMB_RETURN;//데이터에 폭탄 설치
+				bomb_return--;
+				board.visited[x][y] = VISITED; //방문했다고 체크
+				board.view[x][y] = FLAG;//화면에는 깃발로 설치
+			}
+		}
+	}
+}
+
+
+void reAllocateMap(int x, int y) {//배치를 재할당하는 함수
 
 	int bomb_reset, bomb_map, bomb_return;
 	int treasure_plus, treasure_double;
@@ -23,9 +126,11 @@ void reAllocateMap(int x, int y) {
 	bomb_map = bombs.map;
 	bomb_return = bombs.ret;
 
+	//벽 초기화
+
 	initWall();
 
-	//man is on current position
+	//플레이어는 제자리에 위치해야함.
 
 	board.gameBoard[man.x][man.y] = MAN;
 	board.visited[man.x][man.y] = VISITED;
@@ -108,105 +213,9 @@ void reAllocateMap(int x, int y) {
 }
 
 
-void initTreasure(int trasureCount) {
-	int x, y;
-	int treasure_plus, treasure_double;
 
 
-
-
-	treasure_double = trasureCount / 2;
-	treasure_plus = trasureCount / 2;
-
-	treasure.doubule = treasure_double;
-	treasure.score = treasure_plus;
-
-	for (int i = 0; i < BOARD_WIDTH; i++) {
-		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			x = rand() % BOARD_WIDTH;
-			y = rand() % BOARD_HEIGHT;
-			if (board.visited[x][y] == YET && treasure_plus > 0) {
-
-				board.gameBoard[x][y] = TREASURE_PLUS;
-				treasure_plus--;
-				board.visited[x][y] = VISITED;
-				board.view[x][y] = FLAG;
-			}
-		}
-	}
-
-	for (int i = 0; i < BOARD_WIDTH; i++) {
-		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			x = rand() % BOARD_WIDTH;
-			y = rand() % BOARD_HEIGHT;
-			if (board.visited[x][y] == YET && treasure_double > 0) {
-
-				board.gameBoard[x][y] = TREASURE_DOUBLE;
-				treasure_double--;
-				board.visited[x][y] = VISITED;
-				board.view[x][y] = FLAG;
-			}
-		}
-	}
-}
-
-void initBomb(int bombCount) {
-	int x, y;
-	int bomb_reset, bomb_map, bomb_return;
-
-	bomb_reset = bombCount / 3;
-	bomb_map = bombCount / 3;
-	bomb_return = bombCount / 3;
-
-	bombs.reset = bomb_reset;
-	bombs.map = bomb_map;
-	bombs.ret = bomb_return;
-
-	for (int i = 0; i < BOARD_WIDTH; i++) {
-		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			x = rand() % BOARD_WIDTH;
-			y = rand() % BOARD_HEIGHT;
-			if (board.visited[x][y] == YET && bomb_reset > 0) {
-
-				board.gameBoard[x][y] = BOMB_SCORE;
-				bomb_reset--;
-				board.visited[x][y] = VISITED;
-				board.view[x][y] = FLAG;
-			}
-		}
-	}
-
-	for (int i = 0; i < BOARD_WIDTH; i++) {
-		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			x = rand() % BOARD_WIDTH;
-			y = rand() % BOARD_HEIGHT;
-			if (board.visited[x][y] == YET && bomb_map > 0) {
-
-				board.gameBoard[x][y] = BOMB_MAP;
-				bomb_map--;
-				board.visited[x][y] = VISITED;
-				board.view[x][y] = FLAG;
-			}
-		}
-	}
-
-	for (int i = 0; i < BOARD_WIDTH; i++) {
-		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			x = rand() % BOARD_WIDTH;
-			y = rand() % BOARD_HEIGHT;
-			if (board.visited[x][y] == YET && bomb_return > 0) {
-
-				board.gameBoard[x][y] = BOMB_RETURN;
-				bomb_return--;
-				board.visited[x][y] = VISITED;
-				board.view[x][y] = FLAG;
-			}
-		}
-	}
-}
-
-
-void initMap(int bombCount, int flagCount, int trasureCount) {
+void initMap(int bombCount, int flagCount, int trasureCount) {//맵 초기화 함수
 
 
 	
@@ -231,15 +240,15 @@ void initMap(int bombCount, int flagCount, int trasureCount) {
 	//treasure init
 	initTreasure(trasureCount);
 
-
+	//초기화했다고 플래그에 저장
 	board.initFlag = ON;
 
 }
 
-void initWall() {
+void initWall() {//벽을 초기화하는 함수
 	for (int i = 0; i < BOARD_WIDTH; i++) {
 		for (int j = 0; j < BOARD_HEIGHT; j++) {
-			if (i == 0 || j == 0 || i == BOARD_WIDTH - 1 || j == BOARD_HEIGHT - 1) {
+			if (i == 0 || j == 0 || i == BOARD_WIDTH - 1 || j == BOARD_HEIGHT - 1) {//동서남북 외벽에만
 				board.gameBoard[i][j] = WALL;
 				board.visited[i][j] = VISITED;
 				board.view[i][j] = WALL;
@@ -256,12 +265,12 @@ void initWall() {
 }
 
 
-void backToMain(int* bombCount, int* flagCount, int* trasureCount) {
-	int cursorCount_back = 1;
+void backToMain(int* bombCount, int* flagCount, int* trasureCount) {//일시 정지 및 메인 돌아가기 함수
+	int cursorCount_back = 1;//커서 위치를 나타내는 변수
 	while (1) {
-
+		//백 투 메인 매뉴 출력
 		cursorFix(D_X, D_Y, cursorCount_back, FLAG_BACK_TO_MENU);
-
+	
 		input = _getch();
 		if (input == 224 || input == 0) {
 			input = _getch();
@@ -292,7 +301,7 @@ void backToMain(int* bombCount, int* flagCount, int* trasureCount) {
 
 				board.initFlag = OFF;//게임 보드 다시 초기화
 
-
+				//메뉴로 다시 돌아간다.
 				progressMenu();
 
 			}

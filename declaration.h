@@ -90,9 +90,9 @@ void calculateScore();
 //사용한 구조체들
 
 struct Board {
-	int gameBoard[BOARD_WIDTH][BOARD_HEIGHT];
-	int visited[BOARD_WIDTH][BOARD_HEIGHT];
-	int view[BOARD_WIDTH][BOARD_HEIGHT];
+	int gameBoard[BOARD_WIDTH][BOARD_HEIGHT];//게임판의 데이터를 담당
+	int visited[BOARD_WIDTH][BOARD_HEIGHT];//게임판의 위치들의 방문 여부를 담당
+	int view[BOARD_WIDTH][BOARD_HEIGHT];//게임판의 화면을 담당
 	int initFlag;
 }board;
 
