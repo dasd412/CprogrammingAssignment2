@@ -1,11 +1,11 @@
 #include"declaration.h"
 
-
+//ESC 온오프 플래그
 #define OFF_ESC 0
 #define ON_ESC 1
 
 int flag_ESC=OFF_ESC;
-int input;
+int input;//입력 키
 
 
 void reAllocateMap(int x, int y) {
@@ -307,60 +307,66 @@ void backToMain(int* bombCount, int* flagCount, int* trasureCount) {
 
 	}
 }
-void initGameFormat() {
+void initGameFormat() {//게임 포맷 초기화 함수
 	//game init
-	if (format.isNew == ON) {
-		format.score = 0;
+	if (format.isNew == ON) {//포맷이 처음 만들어졌으면(=게임 클리어가 아닌, 메인 메뉴에서 선택했으면)
+		format.score = 0;//점수를 0으로 설정. 아니라면 누적됨.
 	}
 	
-	format.keyCount =600;
+	format.keyCount =600;//이동횟수는 600으로 초기화
 }
 
 
-extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {
+extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {//게임을 진행시키는 함수
 	
-	int temp_x, temp_y;
-	int canGo_flag=OFF;
+	int temp_x, temp_y;//이전에 있었던 플레이어 좌표를 기록하기 위한 임시변수
+	int canGo_flag=OFF;//충돌 여부를 나타내는 플래그
 
-	initGameFormat();
+	initGameFormat();//게임 포맷을 초기화한다.
 
-	if (board.initFlag == OFF) {
+	if (board.initFlag == OFF) {//맵이 초기화된 적 없으면 맵을 초기화한다.
       initMap((*bombCount), (*flagCount), (*trasureCount));
 	}
 	
 	cursorFix(D_X, D_Y, 1, FLAG_GAME);
 
-	while (treasure.doubule+treasure.score>0) {//메뉴 반복
+	while (treasure.doubule+treasure.score>0) {//보물 개수가 0보다 큰 동안 반복한다.
 
-		if (flag_ESC == ON_ESC) {//백투 메인이 켜져있는 경우
+		if (flag_ESC == ON_ESC) {//ESC를 누른 경우
 		
+			//백 투 메인 호출
 			backToMain(bombCount, flagCount, trasureCount);
 		}
 		else {
-			
+			//아니라면 게임 화면 출력
 			cursorFix(D_X, D_Y, 1, FLAG_GAME);
 		}
 
 		input = _getch();
-		if (flag_ESC==OFF_ESC&& input == 27) {//처음 ESC키 눌렀을 경우
+		if (flag_ESC==OFF_ESC&& input == 27) {//처음 ESC키 눌렀을 경우 ESC를 눌렀다고 플래그에 저장
 			
 			flag_ESC = ON_ESC;
 		}
 		else if (flag_ESC == ON_ESC && input == 27) {//ESC를 누른 상태일 경우 플래그 오프
 			flag_ESC = OFF_ESC;
 		}
-		else {
-			if (input == 224 || input == 0) {
+		else {//ESC키가 아닌 입력에 대해서
+			if (input == 224 || input == 0) {//방향키라면
 			input = _getch();
+			//이전 좌표 임시 저장
 			temp_x = man.x;
-			temp_y = man.y;				
+			temp_y = man.y;	
+
+			//일단 갈 수 없다고 저장
 			canGo_flag = OFF;
+
+			//이동 횟수 1 감소
 			format.keyCount--;
-			switch (input) {
+			switch (input) {//방향키에 대해서
 				
 			case 72://위
-				if (canGo(man.x,man.y - 1)==ON) {
-					man.y = man.y -1;
+				if (canGo(man.x,man.y - 1)==ON) {//위로 갈 수 있으면
+					man.y = man.y -1;//y좌표 1감소하고 갈 수 있다고 플래그에 저장
 					canGo_flag = ON;
 				}
 				
@@ -368,39 +374,41 @@ extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {
 				break;
 
 			case 75://왼
-				if (canGo(man.x - 1,man.y)== ON) {
-					man.x = man.x -1 ;
+				if (canGo(man.x - 1,man.y)== ON) {//왼쪽으로 갈 수 있으면
+					man.x = man.x -1 ;//x좌표 1감소하고 갈 수 있다고 플래그에 저장
 					canGo_flag = ON;
 				}
 			
 				break;
 
 			case 77://오른쪽
-				if (canGo(man.x + 1,man.y)== ON) {
-					man.x = man.x + 1;
+				if (canGo(man.x + 1,man.y)== ON) {//오른쪽으로 갈 수 있으면
+					man.x = man.x + 1;//x좌표 1증가하고 갈 수 있다고 플래그에 저장
 					canGo_flag = ON;
 				}
 				
 				break;
 
 			case 80://아래
-				if (canGo(man.x,man.y + 1)== ON) {
-					man.y = man.y + 1;
+				if (canGo(man.x,man.y + 1)== ON) {//아래로 갈 수 있으면
+					man.y = man.y + 1;//y좌표 1증가하고 갈 수 있다고 플래그에 저장
 					canGo_flag = ON;
 				}
 				
 				break;
 
 			default:break;
-			}//switch
-			if (canGo_flag == ON) {
+			}//switch 문 끝
+
+			if (canGo_flag == ON) {//갈 수 있으면
 				
-				if (whatsThis(man.x, man.y)==ON) {
-					findAndCollect(man.x, man.y);
+				if (whatsThis(man.x, man.y)==ON) {//게다가 무언가 존재하고 있으면
+					findAndCollect(man.x, man.y);//기물의 효과 처리
 				}
-				board.gameBoard[man.x][man.y] = MAN;
-			    board.gameBoard[temp_x][temp_y] = NONE;
-				board.view[temp_x][temp_y] = NONE;
+
+				board.gameBoard[man.x][man.y] = MAN;//이동한 곳에 플레이어 출력
+			    board.gameBoard[temp_x][temp_y] = NONE;//있었던 곳은 none으로 처리해서 궤적을 없앰
+				board.view[temp_x][temp_y] = NONE;//화면도 역시 궤적이 안보이게 출력
 			}
 			
 
@@ -429,9 +437,9 @@ extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {
 	
 }
 
-void calculateScore() {
+void calculateScore() {//점수를 계산하는 함수
 	
-	
+	//점수=점수*10-이동횟수*2로 책정하였다.
 	format.score = format.score * 10 - format.keyCount * 2;
 	
  }
@@ -448,52 +456,52 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 #define BOMB_RETURN 7
 #define TREASURE_DOUBLE 8
 */
-	int temp_x=x, temp_y=y;
+	int temp_x=x, temp_y=y;//이전에 있었던 플레이어 좌표를 기록하기 위한 임시변수
 	
-	switch (board.gameBoard[x][y]) {
-	case TREASURE_PLUS:
-		treasure.score -= 1;
+	switch (board.gameBoard[x][y]) {//입력 받은 좌표에서
+	case TREASURE_PLUS://점수를 추가하는 보물이 존재한다면,
+		treasure.score -= 1;//점수 추가 보물의 개수를 1줄이고,
 		
-		format.score += 100; break;
+		format.score += 100; break;//점수를 100점 추가한다.
 
-	case BOMB_MAP:
-		bombs.map -= 1;
+	case BOMB_MAP://랜덤 배치 폭탄이라면
+		bombs.map -= 1;//랜덤 배치 폭탄 개수를 1 줄이고
 		
-		reAllocateMap(x,y);
+		reAllocateMap(x,y);//맵을 재할당한다.
 
 		break;
 
-	case BOMB_SCORE:
-		bombs.reset -= 1;
+	case BOMB_SCORE://점수 폭탄이라면
+		bombs.reset -= 1;//점수 폭탄 개수를 1줄이고
 
 
 		
 
-		format.score =0;
+		format.score =0;//점수를 0으로 리셋한다.
 		break;
 
-	case BOMB_RETURN:
-		bombs.ret -= 1;
+	case BOMB_RETURN://시작점 폭탄이라면
+		bombs.ret -= 1;//개수를 1줄이고
 
 		
-
+		//플레이어 좌표를 시작점으로 하고, 원래 있었던 곳은 궤적과 폭탄을 지운다.
 		man.x = START_X;
 		man.y = START_Y;
 		board.gameBoard[temp_x][temp_y] = NONE;
 		break;
 
-	case TREASURE_DOUBLE:
-		treasure.doubule -= 1;
+	case TREASURE_DOUBLE://점수 2배 보물이라면
+		treasure.doubule -= 1;//개수를 1줄이고
 		
 
-		if (format.score == 0) {
-			format.score = format.score + 100;
+		if (format.score == 0) {//빵점이면
+			format.score = format.score + 100;//100점을 추가해준다.
 		}
-		else if (format.score < 0) {
-			format.score = 0;
+		else if (format.score < 0) {//0이하면
+			format.score = 0;//0으로 복구해준다.
 		}
 		
-		format.score *= 2;
+		format.score *= 2;//2를 곱한다.
 		break;
 
 	default:break;
@@ -502,24 +510,24 @@ void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 
 }
 
-int whatsThis(int x, int y) {
+int whatsThis(int x, int y) {//입력 받은 좌표에 무언가 존재하는지
 
-	if (board.gameBoard[x][y] == NONE) {
+	if (board.gameBoard[x][y] == NONE) {//없다면
 	
 		return OFF;
 	}
-	else {
+	else {//있다면
 		
 		return ON;
 	}
 }
 
-int canGo(int man_x,int man_y) {
+int canGo(int man_x,int man_y) {//입력 받은 좌표에 대해 갈 수 있는 곳인지 여부를 따지는 함수.(벽과의 충돌 여부)
 
-	if (board.gameBoard[man_x][man_y] == WALL) {
-		return OFF;
+	if (board.gameBoard[man_x][man_y] == WALL) {//벽이라면
+		return OFF;//못간다
 	}
-	else {
-		return ON;
+	else {//아니라면
+		return ON;//갈 수 있다
 	}
 }
