@@ -2,9 +2,11 @@
 #ifndef __DECLARATION_H_
 #define _DECLARATION_H_
 //헤더파일 중복 오류 방지
+
+//wav 파일 재생 함수를 위해 작성
 #pragma comment(lib,"Winmm.lib")
 
-
+//헤더 인클루드
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
@@ -85,6 +87,7 @@ void calculateScore();
 #define HELP_X 75
 #define HELP_Y 3
 
+//사용한 구조체들
 
 struct Board {
 	int gameBoard[BOARD_WIDTH][BOARD_HEIGHT];
