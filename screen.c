@@ -1,11 +1,11 @@
 #include "declaration.h"
 
-char* menus[MENU_MAX] = { "EASY","NORMAL","HARD","EXIT" };
-char* backToMenus[BACK_TO_MENU_MAX] = { "예","아니오" };
+char* menus[MENU_MAX] = { "EASY","NORMAL","HARD","EXIT" };//메뉴 커서를 나타내는 문자열들
+char* backToMenus[BACK_TO_MENU_MAX] = { "예","아니오" };//백 투 메인 메뉴 커서를 나타내는 문자열들
 
 
 
-extern void gotoxy(int x, int y) {
+extern void gotoxy(int x, int y) {//입력받은 x,y좌표로 콘솔 좌표를 움직인다.
 	COORD pos;
 	pos.X = x;
 	pos.Y = y;
@@ -17,8 +17,9 @@ extern void cursorFix(int x, int y, int index, int gameFlag) {
 	int j = 0;
 
 
-	system("cls");
+	system("cls");//한 번 콘솔을 지운다. <-더블 버퍼링으로 개선할 수 있다.
 
+	//화면을 출력한다.
 	gotoxy(x, y);
 	printf("┌");
 
@@ -35,16 +36,16 @@ extern void cursorFix(int x, int y, int index, int gameFlag) {
 
 		if (i == START_CURSOR) {
 
-			if (gameFlag == FLAG_MENU) {
-				printMenu(index, i);
+			if (gameFlag == FLAG_MENU) {//메뉴를 찍어달라는 요청이면
+				printMenu(index, i);//메뉴를 출력한다.
 			}
-			else if (gameFlag == FLAG_BACK_TO_MENU) {
+			else if (gameFlag == FLAG_BACK_TO_MENU) {//백 투 메인 메뉴 출력 요청이라면
 				printBackToMenu(index, i);
 			}
-			else if (gameFlag == FLAG_GAME) {
+			else if (gameFlag == FLAG_GAME) {//게임 출력 요청이라면
 				printGame(index, i);
 			}
-			else if (gameFlag == FLAG_FINAL) {
+			else if (gameFlag == FLAG_FINAL) {//최종 점수 출력 요청이라면
 				gotoxy(11, 3);
 				printf("최종 점수는 %d입니다!!", format.score);
 			}
@@ -71,7 +72,7 @@ extern void cursorFix(int x, int y, int index, int gameFlag) {
 
 }
 
-void printMenu(int index, int i) {
+void printMenu(int index, int i) {//메뉴와 커서를 출력한다.
 
 
 	for (int j = 0; j < MENU_MAX; j++) {
@@ -86,7 +87,7 @@ void printMenu(int index, int i) {
 
 }
 
-void printBackToMenu(int index, int i) {
+void printBackToMenu(int index, int i) {//일시 정지화면과 커서를 출력한다.
 	gotoxy(STANDARD_CONSOLE, i - 1);
 	printf("메인 메뉴로 돌아가시겠습니까?");
 
@@ -100,9 +101,9 @@ void printBackToMenu(int index, int i) {
 	}
 }
 
-void printGame(int index, int i) {
+void printGame(int index, int i) {//게임을 출력한다.
 	
-	printGameHelp();
+	printGameHelp();//게임 도움말을 출력한다.
 
 
 	
@@ -147,7 +148,7 @@ void printGame(int index, int i) {
 
 }
 
-void printGameHelp() {
+void printGameHelp() {//게임 도움말 출력함수
 	gotoxy(HELP_X, HELP_Y);
 	printf("점수:%d", format.score);
 	gotoxy(HELP_X, HELP_Y+3);
