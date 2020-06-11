@@ -67,15 +67,15 @@ extern void progressMenu() {
 
 			if (initCount == 1) {//easy mode
 				
-				progressGame(easyMode.bombCount,easyMode.flagCount,easyMode.treasureCount);
+				progressGame(&(easyMode.bombCount),&(easyMode.flagCount),&(easyMode.treasureCount));
 				
 			}
 			else if (initCount == 2) {//normal mode
-				progressGame(normalMode.bombCount,normalMode.flagCount,normalMode.treasureCount);
+				progressGame(&(normalMode.bombCount),&(normalMode.flagCount),&(normalMode.treasureCount));
 				
 			}
 			else if (initCount == 3) {//hard mode
-				progressGame(hardMode.bombCount,hardMode.flagCount,hardMode.treasureCount);
+				progressGame(&(hardMode.bombCount),&(hardMode.flagCount),&(hardMode.treasureCount));
 				
 			}
 			else { //exit

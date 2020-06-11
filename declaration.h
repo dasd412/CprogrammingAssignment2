@@ -20,7 +20,9 @@ void printMenu(int, int);
 void printBackToMenu(int, int);
 void printGame(int, int);
 void cursorFix(int, int, int, int);
-void progressGame(int,int,int);
+void progressGame(int *,int*,int*);
+void backToMain(int*, int*, int*);
+
 int canGo(int,int);
 int whatsThis(int,int);
 void initMap(int,int,int);

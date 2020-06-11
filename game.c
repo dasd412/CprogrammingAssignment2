@@ -256,7 +256,7 @@ void initWall() {
 }
 
 
-void backToMain(int bombCount, int flagCount, int trasureCount) {
+void backToMain(int* bombCount, int* flagCount, int* trasureCount) {
 	int cursorCount_back = 1;
 	while (1) {
 
@@ -317,7 +317,7 @@ void initGameFormat() {
 }
 
 
-extern void progressGame(int bombCount, int flagCount, int trasureCount) {
+extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {
 	
 	int temp_x, temp_y;
 	int canGo_flag=OFF;
@@ -325,7 +325,7 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 	initGameFormat();
 
 	if (board.initFlag == OFF) {
-      initMap(bombCount, flagCount, trasureCount);
+      initMap((*bombCount), (*flagCount), (*trasureCount));
 	}
 	
 	cursorFix(D_X, D_Y, 1, FLAG_GAME);
@@ -416,11 +416,11 @@ extern void progressGame(int bombCount, int flagCount, int trasureCount) {
 	calculateScore();
 	board.initFlag = OFF;
 	format.isNew = OFF;
-	if (flagCount == easyMode.flagCount) {
-		progressGame(normalMode.bombCount, normalMode.flagCount, normalMode.treasureCount);
+	if (*(flagCount) == easyMode.flagCount) {
+		progressGame(&(normalMode.bombCount), &(normalMode.flagCount), &(normalMode.treasureCount));
 	}
-	else if (flagCount == normalMode.flagCount) {
-		progressGame(hardMode.bombCount, hardMode.flagCount, hardMode.treasureCount);
+	else if (*(flagCount) == normalMode.flagCount) {
+		progressGame(&(hardMode.bombCount), &(hardMode.flagCount), &(hardMode.treasureCount));
 	}
 	else  {
 		cursorFix(D_X, D_Y, 1, FLAG_FINAL);
