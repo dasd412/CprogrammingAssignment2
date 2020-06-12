@@ -14,6 +14,8 @@
 #include <Windows.h>
 #include <time.h>
 #include <mmsystem.h>
+#include <io.h>
+#include<direct.h>
 
 //함수 선언
 void progressMenu();
@@ -36,6 +38,7 @@ void initTreasure(int);
 void initWall();
 void reAllocateMap(int, int);
 void calculateScore();
+void saveScores();
 
 //기호 상수 선언
 

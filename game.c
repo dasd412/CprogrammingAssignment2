@@ -441,6 +441,7 @@ extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {//�
 	}
 	else  {
 		cursorFix(D_X, D_Y, 1, FLAG_FINAL);
+		saveScores();
 		exit(0);
 	}
 	
@@ -452,6 +453,23 @@ void calculateScore() {//점수를 계산하는 함수
 	format.score = format.score * 10 - format.keyCount * 2;
 	
  }
+
+void saveScores() {
+	char* name="saveData";
+	char fileName[50] = { 0 };
+	FILE* fp = NULL;
+
+	sprintf_s(fileName,sizeof(fileName), "Save/%s.txt",name);
+
+	_mkdir("Save");
+	 fopen_s(&fp,fileName ,"wt");
+
+	fprintf_s(fp, "%d\n", format.score);
+
+	fclose(fp);
+
+
+}
 
 void findAndCollect(int x, int y) {//기물 효과 처리, 분기별로
 	/* 
