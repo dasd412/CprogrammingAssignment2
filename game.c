@@ -441,9 +441,9 @@ extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {//�
 		progressGame(&(hardMode.bombCount), &(hardMode.flagCount), &(hardMode.treasureCount));
 	}
 	else  {
-		loadScores();
-		cursorFix(D_X, D_Y, 1, FLAG_FINAL);
-		saveScores();
+		loadScores();//게임을 불러온다.
+		cursorFix(D_X, D_Y, 1, FLAG_FINAL);//최종화면을 출력한다.
+		saveScores();//게임을 저장한다.
 
 		free(format.scoresSaved);//동적할당 반드시 해제!!
 		exit(0);
@@ -458,32 +458,32 @@ void calculateScore() {//점수를 계산하는 함수
 	
  }
 
-void saveScores() {
+void saveScores() {//게임 저장 함수
 	char* name="saveData";
 	char fileName[50] = { 0 };
 	int i = 0;
 	FILE* fp = 0;
 
-	sprintf_s(fileName,sizeof(fileName), "Save/%s.txt",name);
-    fopen_s(&fp,fileName ,"a+");//파일 끝에 이어쓰는 옵션
-	if (fp != NULL) {
+	sprintf_s(fileName,sizeof(fileName), "Save/%s.txt",name);//문자열 변환
+    fopen_s(&fp,fileName ,"a+");//파일 끝에 이어쓰는 옵션으로 파일을 연다.
+	if (fp != NULL) {//파일이 있으면
 
 
 
-	fprintf_s(fp, "%d\n", format.score);
+	fprintf_s(fp, "%d\n", format.score);//파일 끝에 점수를 이어쓴다.
 
-	fclose(fp);
+	fclose(fp);//파일 할당 해제
 
 
 	}
-	else {
-		_mkdir("Save");
+	else {//없으면
+		_mkdir("Save");//디렉토리를 만든다.
 	}
 	
 
 }
 
-void loadScores() {
+void loadScores() {//게임을 로드하는 함수
 	char* name = "saveData";
 	char fileName[50] = { 0 };
 	int scores[50] = { 0 };
@@ -492,20 +492,20 @@ void loadScores() {
 
 	FILE* fp = 0;
 
-	sprintf_s(fileName, sizeof(fileName), "Save/%s.txt", name);
-	fopen_s(&fp, fileName, "r");
+	sprintf_s(fileName, sizeof(fileName), "Save/%s.txt", name);//문자열 변환
+	fopen_s(&fp, fileName, "r");//읽기 옵션으로 파일을 연다.
 
-	if (fp != NULL) {
-		while (!feof(fp)||i<50) {
+	if (fp != NULL) {//파일이 있으면
+		while (!feof(fp)||i<50) {//파일의 끝 또는 50개까지
 		
-			fscanf_s(fp,"%d",&(scores[i]));
+			fscanf_s(fp,"%d",&(scores[i]));//읽어온다.
 			i++;
 
 		}
 		fclose(fp);
 
 		
-		
+		//50개의 요소를 선택정렬한다.
 		for (int a = 0; a < 49; a++) {
 			for (int b = a + 1; b < 50; b++) {
 				if (scores[a] < scores[b]) {
@@ -518,7 +518,7 @@ void loadScores() {
 			}
 		}
 		
-
+		//1등부터 5등까지를 선정한다.
 		for (int a= 0;a < 5;a++) {
 			format.scoresSaved[a] = scores[a];
 		}
