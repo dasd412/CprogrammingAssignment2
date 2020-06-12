@@ -48,6 +48,13 @@ extern void cursorFix(int x, int y, int index, int gameFlag) {
 			else if (gameFlag == FLAG_FINAL) {//최종 점수 출력 요청이라면
 				gotoxy(11, 3);
 				printf("최종 점수는 %d입니다!!", format.score);
+				gotoxy(11, 4);
+				printf("역대 점수:");
+				
+				for (int a = 0; a < 5; a++) {
+					gotoxy(11, a + 5);
+					printf("%d등 : %d", (a+1),format.scoresSaved[a]);
+				}
 			}
 
 
@@ -163,5 +170,13 @@ void printGameHelp() {//게임 도움말 출력함수
 	printf("단, 장애물들도 숨어있습니다!");
 	gotoxy(HELP_X, HELP_Y + 10);
 	printf("최종 점수는 이동횟수를 이용하여 계산됩니다.");
+	gotoxy(HELP_X, HELP_Y + 13);
+	printf("역대 점수:");
+
+	for (int a = 0; a < 5; a++) {
+		gotoxy(HELP_X, HELP_Y +14+a);
+
+		printf("%d등 : %d", (a + 1), format.scoresSaved[a]);
+	}
 }
 

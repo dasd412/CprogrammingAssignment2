@@ -39,6 +39,7 @@ void initWall();
 void reAllocateMap(int, int);
 void calculateScore();
 void saveScores();
+void loadScores();
 
 //기호 상수 선언
 
@@ -126,6 +127,7 @@ struct GameFormat {
 	int score;
 	int keyCount;
 	int isNew;
+	int* scoresSaved;
 }format;
 
 struct Bomb {

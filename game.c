@@ -323,6 +323,7 @@ void initGameFormat() {//°ÔÀÓ Æ÷¸Ë ÃÊ±âÈ­ ÇÔ¼ö
 	}
 	
 	format.keyCount =600;//ÀÌµ¿È½¼ö´Â 600À¸·Î ÃÊ±âÈ­
+	format.scoresSaved = malloc(sizeof(int) * 5);//ÀúÀå Á¡¼öµé µ¿ÀûÇÒ´ç
 }
 
 
@@ -336,7 +337,7 @@ extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {//°
 	if (board.initFlag == OFF) {//¸ÊÀÌ ÃÊ±âÈ­µÈ Àû ¾øÀ¸¸é ¸ÊÀ» ÃÊ±âÈ­ÇÑ´Ù.
       initMap((*bombCount), (*flagCount), (*trasureCount));
 	}
-	
+	loadScores();
 	cursorFix(D_X, D_Y, 1, FLAG_GAME);
 
 	while (treasure.doubule+treasure.score>0) {//º¸¹° °³¼ö°¡ 0º¸´Ù Å« µ¿¾È ¹Ýº¹ÇÑ´Ù.
@@ -369,8 +370,6 @@ extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {//°
 			//ÀÏ´Ü °¥ ¼ö ¾ø´Ù°í ÀúÀå
 			canGo_flag = OFF;
 
-			//ÀÌµ¿ È½¼ö 1 °¨¼Ò
-			format.keyCount--;
 			switch (input) {//¹æÇâÅ°¿¡ ´ëÇØ¼­
 				
 			case 72://À§
@@ -410,7 +409,9 @@ extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {//°
 			}//switch ¹® ³¡
 
 			if (canGo_flag == ON) {//°¥ ¼ö ÀÖÀ¸¸é
-				
+
+			    //ÀÌµ¿ È½¼ö 1 °¨¼Ò
+				format.keyCount--;
 				if (whatsThis(man.x, man.y)==ON) {//°Ô´Ù°¡ ¹«¾ð°¡ Á¸ÀçÇÏ°í ÀÖÀ¸¸é
 					findAndCollect(man.x, man.y);//±â¹°ÀÇ È¿°ú Ã³¸®
 				}
@@ -440,8 +441,11 @@ extern void progressGame(int* bombCount, int* flagCount, int* trasureCount) {//°
 		progressGame(&(hardMode.bombCount), &(hardMode.flagCount), &(hardMode.treasureCount));
 	}
 	else  {
+		loadScores();
 		cursorFix(D_X, D_Y, 1, FLAG_FINAL);
 		saveScores();
+
+		free(format.scoresSaved);//µ¿ÀûÇÒ´ç ¹Ýµå½Ã ÇØÁ¦!!
 		exit(0);
 	}
 	
@@ -457,19 +461,74 @@ void calculateScore() {//Á¡¼ö¸¦ °è»êÇÏ´Â ÇÔ¼ö
 void saveScores() {
 	char* name="saveData";
 	char fileName[50] = { 0 };
-	FILE* fp = NULL;
+	int i = 0;
+	FILE* fp = 0;
 
 	sprintf_s(fileName,sizeof(fileName), "Save/%s.txt",name);
+    fopen_s(&fp,fileName ,"a+");//ÆÄÀÏ ³¡¿¡ ÀÌ¾î¾²´Â ¿É¼Ç
+	if (fp != NULL) {
 
-	_mkdir("Save");
-	 fopen_s(&fp,fileName ,"wt");
+
 
 	fprintf_s(fp, "%d\n", format.score);
 
 	fclose(fp);
 
 
+	}
+	else {
+		_mkdir("Save");
+	}
+	
+
 }
+
+void loadScores() {
+	char* name = "saveData";
+	char fileName[50] = { 0 };
+	int scores[50] = { 0 };
+	int i = 0;
+	int temp;
+
+	FILE* fp = 0;
+
+	sprintf_s(fileName, sizeof(fileName), "Save/%s.txt", name);
+	fopen_s(&fp, fileName, "r");
+
+	if (fp != NULL) {
+		while (!feof(fp)||i<50) {
+		
+			fscanf_s(fp,"%d",&(scores[i]));
+			i++;
+
+		}
+		fclose(fp);
+
+		
+		
+		for (int a = 0; a < 49; a++) {
+			for (int b = a + 1; b < 50; b++) {
+				if (scores[a] < scores[b]) {
+				temp = scores[b];
+				scores[b] = scores[a];
+				scores[a] = temp;
+
+				}
+			
+			}
+		}
+		
+
+		for (int a= 0;a < 5;a++) {
+			format.scoresSaved[a] = scores[a];
+		}
+
+
+
+	}
+	
+}
+
 
 void findAndCollect(int x, int y) {//±â¹° È¿°ú Ã³¸®, ºÐ±âº°·Î
 	/* 
